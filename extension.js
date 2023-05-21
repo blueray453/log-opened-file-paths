@@ -36,42 +36,32 @@ class Extension {
 
             // get_display_name is a function of AppInfo which is DesktopAppInfo inherited
 
-            // log("appx pids: " + appx.get_pids());
-
-
-            // var y = Shell.AppSystem.get_running();
-
-            // log("running: " + y);
-
             // let apps = Gio.AppInfo.get_all();
             // apps.forEach(function (w) {
             //     log("app name : " + w.get_display_name());
             //     log("app id : " + w.get_id());
             // })
 
-            let shellapps = Shell.AppSystem.get_default().lookup_app(appxid).get_windows();
-            shellapps.forEach(function (w) {
-                log("window id : " + w.get_id());
-            })
+            // let shellapps = Shell.AppSystem.get_default().lookup_app(appxid).get_windows();
+            // shellapps.forEach(function (w) {
+            //     log("window id : " + w.get_id());
+            // })
 
-            let runningshellapps = Shell.AppSystem.get_default().get_running();
-            runningshellapps.forEach(function (w) {
-                log("running app id : " + w.get_id());
-            })
+            // let runningshellapps = Shell.AppSystem.get_default().get_running();
+            // runningshellapps.forEach(function (w) {
+            //     log("running app id : " + w.get_id());
+            // })
 
-            //
+            const filepath = GLib.build_filenamev([GLib.get_home_dir(), 'test-file.txt']);
 
+            const file = Gio.File.new_for_path(filepath);
 
-            // const filepath = GLib.build_filenamev([GLib.get_home_dir(), 'test-file.txt']);
+            // const outputStreamCreate = file.create(Gio.FileCreateFlags.NONE, null);
+            const outputStreamAppend = file.append_to(Gio.FileCreateFlags.NONE, null);
 
-            // const file = Gio.File.new_for_path(filepath);
+            var to_write = appxid + ' ' + apppid + ' ' + openedfilepath + '\n'
 
-            // // const outputStreamCreate = file.create(Gio.FileCreateFlags.NONE, null);
-            // const outputStreamAppend = file.append_to(Gio.FileCreateFlags.NONE, null);
-
-            // var to_write = appxid + ' ' + apppid + ' ' + openedfilepath + '\n'
-
-            // const bytesWritten = outputStreamAppend.write_all(to_write, null);
+            const bytesWritten = outputStreamAppend.write_all(to_write, null);
         }
     }
 
