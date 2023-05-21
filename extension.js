@@ -26,24 +26,52 @@ class Extension {
             log("apppid : " + apppid);
 
             const appx = Gio.DesktopAppInfo.new_from_filename(String.fromCharCode(...apppath));
-            const appxid = Gio.DesktopAppInfo.new_from_filename(String.fromCharCode(...apppath)).get_id();
+            const appxid = appx.get_id();
 
-            // log("appxid : " + appxid);
-            // log("appx pids: " + appxid.get_pids());
+            log("appxid : " + appxid);
 
-            // log("appx : " + TextDecoder.decode(apppath, true));
-            // log("appx : " + TextDecoder.decode(apppath, false));
+            let deskapps = Gio.DesktopAppInfo.new(appxid);
+            log("deskapps : " + deskapps.get_filename());
+            log("deskapps display name : " + deskapps.get_display_name());
 
-            const filepath = GLib.build_filenamev([GLib.get_home_dir(), 'test-file.txt']);
+            // get_display_name is a function of AppInfo which is DesktopAppInfo inherited
 
-            const file = Gio.File.new_for_path(filepath);
+            // log("appx pids: " + appx.get_pids());
 
-            // const outputStreamCreate = file.create(Gio.FileCreateFlags.NONE, null);
-            const outputStreamAppend = file.append_to(Gio.FileCreateFlags.NONE, null);
 
-            var to_write = appxid + ' ' + apppid + ' ' + openedfilepath + '\n'
+            // var y = Shell.AppSystem.get_running();
 
-            const bytesWritten = outputStreamAppend.write_all(to_write, null);
+            // log("running: " + y);
+
+            // let apps = Gio.AppInfo.get_all();
+            // apps.forEach(function (w) {
+            //     log("app name : " + w.get_display_name());
+            //     log("app id : " + w.get_id());
+            // })
+
+            let shellapps = Shell.AppSystem.get_default().lookup_app(appxid).get_windows();
+            shellapps.forEach(function (w) {
+                log("window id : " + w.get_id());
+            })
+
+            let runningshellapps = Shell.AppSystem.get_default().get_running();
+            runningshellapps.forEach(function (w) {
+                log("running app id : " + w.get_id());
+            })
+
+            //
+
+
+            // const filepath = GLib.build_filenamev([GLib.get_home_dir(), 'test-file.txt']);
+
+            // const file = Gio.File.new_for_path(filepath);
+
+            // // const outputStreamCreate = file.create(Gio.FileCreateFlags.NONE, null);
+            // const outputStreamAppend = file.append_to(Gio.FileCreateFlags.NONE, null);
+
+            // var to_write = appxid + ' ' + apppid + ' ' + openedfilepath + '\n'
+
+            // const bytesWritten = outputStreamAppend.write_all(to_write, null);
         }
     }
 
